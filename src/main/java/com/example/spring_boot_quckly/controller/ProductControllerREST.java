@@ -25,8 +25,10 @@ public class ProductControllerREST {
     }
 
     @GetMapping("{id}")
-    public Optional<Product> getProductById(@PathVariable String id) {
-        return productRepository.getProductById(id);
+    public ResponseEntity<Optional<Product>> getProductById(@PathVariable String id) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .header("FuckingHeader", "Ya")
+                .body(productRepository.getProductById(id));
     }
 
     @PostMapping

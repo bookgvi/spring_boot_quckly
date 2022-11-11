@@ -15,14 +15,14 @@ public class AcessAspect {
         this.userManagerService = userManagerService;
     }
 
-    @Around("execution(* com.example.spring_boot_quckly.controller.*.*(..))")
-//    @Around("@annotation(com.example.spring_boot_quckly.annotations.Permit)")
+    @Around("execution(* com.example.spring_boot_quckly.controller.*.*(..)) && !@annotation(com.example.spring_boot_quckly.annotations.PermitAll)")
     public Object permitAccessExcludeThis(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object res = proceedingJoinPoint.proceed();
         String sessionUser = userManagerService.getUserName();
         if (res instanceof String) {
-            if (!"login".equals(res) && !"/".equals(res) && sessionUser == null) {
-                return "redirect:/";
+            if (sessionUser == null) {
+//            if (!"login".equals(res) && !"/".equals(res) && sessionUser == null) {
+                return "redirect:/login";
             }
         }
         return res;

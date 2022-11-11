@@ -1,14 +1,16 @@
 package com.example.spring_boot_quckly.controller;
 
-import com.example.spring_boot_quckly.annotations.Permit;
+import com.example.spring_boot_quckly.annotations.PermitAll;
 import com.example.spring_boot_quckly.service.LoggingProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping(value = "/login")
 public class LoginController {
     LoggingProcessor loggingProcessor;
 
@@ -16,13 +18,13 @@ public class LoginController {
         this.loggingProcessor = loggingProcessor;
     }
 
-    @Permit
-    @GetMapping("/")
-    public String getLogin(Model model) {
-        return "login";
+    @PermitAll
+    @GetMapping
+    public String getLoginPage() {
+        return "login.html";
     }
 
-    @Permit
+    @PermitAll
     @PostMapping
     public String auth(
             @RequestParam String username,

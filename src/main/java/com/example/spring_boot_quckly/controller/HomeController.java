@@ -1,5 +1,6 @@
 package com.example.spring_boot_quckly.controller;
 
+import com.example.spring_boot_quckly.annotations.PermitAll;
 import com.example.spring_boot_quckly.service.LoginCounterService;
 import com.example.spring_boot_quckly.service.UserManagerService;
 import org.springframework.stereotype.Controller;
@@ -17,12 +18,14 @@ public class HomeController {
         this.loginCounterService = loginCounterService;
     }
 
-    @GetMapping("/home")
+    @PermitAll
+    @GetMapping({"/home", "/"})
     public String home(@RequestParam(required = false) String logout, Model model) {
         if (logout != null) {
             userManagerService.setUserName(null);
         }
         String userName = userManagerService.getUserName();
+        userName = userName == null ? "user" : userName;
         int counter = loginCounterService.getCounter();
         model.addAttribute("userName", userName);
         model.addAttribute("counter", counter);
